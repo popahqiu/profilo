@@ -150,7 +150,12 @@ def _create_trace(package, data_dir_path, file_path):
 
     file_path = file_path.strip()
     full_path = os.path.join(data_dir_path, file_path)
-    full_path = os.path.abspath(full_path)
+
+    if sys.platform.find("win") < 0:
+        full_path = os.path.abspath(full_path)
+    else:
+        # workaround for Windows Host and Android(Linux) Target
+        full_path = full_path.replace('\\', '/')
     file_name = os.path.basename(file_path)
 
     modified_time = \
